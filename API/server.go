@@ -1,21 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
-
-type ApiResponse struct { // not needed
-	Message string `json:"message"`
-}
-
-func dataHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("hi")
-	response := ApiResponse{Message: "Hello from the Golang API!"}
-	json.NewEncoder(w).Encode(response)
-}
 
 func handler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println("bye")
@@ -40,8 +29,9 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/apitest", dataHandler)
+	port := "8080"
+	fmt.Println("Server Running on port" + port +
+		"\nAccess by going to http://localhost:" + port + "/")
 	http.HandleFunc("/data", handler)
-	http.ListenAndServe(":8080", nil)
-	fmt.Println("hi")
+	http.ListenAndServe(":"+port, nil)
 }
