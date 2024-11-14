@@ -7,6 +7,7 @@ import (
 )
 
 func handler(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Println("bye")
 	url := "https://api.openf1.org/v1/drivers?&session_key=9636"
 	req, err := http.NewRequest("GET", url, nil)
