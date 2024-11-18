@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import mainImage from '/main-logo.svg'
 import './App.css'
 import { Link } from 'react-router-dom';
+import Navbar from './Components/Navbar';
+import Schedule from './Pages/Schedule';
 
 function App() {
   const [data, setData] = useState([]);
@@ -19,17 +21,17 @@ function App() {
 
   return (
     <>
-      <div className="topnav">
-        <Link to="/">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
-        <Link to="/schedule">Schedule</Link>
-        <Link to="/settings">Settings</Link>
-        <Link to="/help">Help</Link>
+      <Navbar />
+      <div className='center-container'>
+        <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200}/>
+        <h1 className='maintext centertext'>Real-time Formula 1<br/>telemetry and timing</h1>
       </div>
-      <img src={mainImage} alt="F1 Dash logo" width={200}/>
-      <h1>Real-time Formula 1<br />telemetry and timing</h1>
-      <button>Go to Dashboard</button>
-      <button>Check Schedule<Link to="/schedule"/></button>
+      <div className='center-container'>
+        <div className='flex-wrap'>
+          <button className='centertext'>Go to Dashboard</button>
+          <button className='centertext'>Check Schedule</button>
+        </div>
+      </div>
     </>
   )
 }

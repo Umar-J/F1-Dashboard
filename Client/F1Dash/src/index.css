@@ -51,13 +51,24 @@ img {
 }
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex; */
+  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
 
-h1 {
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.centertext {
+  text-align: center;
+}
+
+.maintext {
   font-size: 3rem;
   line-height: 1;
   margin-top: 5rem;
@@ -89,6 +100,21 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.text-2xl{
+  font-size : 1.5rem;
+  line-height: 2rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem
+}
+
+.text-zinc-600 {
+  --tw-text-opacity: 1;
+  color: rgb(82 82 91/var(--tw-text-opacity));
 }
 
 @media (prefers-color-scheme: light) {
