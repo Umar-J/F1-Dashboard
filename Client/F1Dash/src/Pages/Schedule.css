@@ -1,0 +1,75 @@
+.country-container{
+    display: grid;
+    grid-template-areas: "country month dates";
+    grid-template-columns: 4fr Auto auto;
+    grid-template-rows: 4rem;
+}
+
+.item1country {
+    grid-area: country;
+}
+.item2country {
+    grid-area: month;
+    margin-right : 10px;
+    margin-left : 10px;
+}
+.item3country {
+    grid-area: dates;
+    justify-content: end;
+}
+
+.weekend-container {
+    display: grid;
+    grid-template-areas: 
+        "day1 day2 day3"
+        "e1name e3name e5name"
+        "e1time e3time e5time"
+        "e2name e4name blank1"
+        "e2time e4time blank2";
+
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto auto auto;                    
+}
+
+.friday-header {
+    grid-area: day1;
+}
+.saturday-header {
+    grid-area: day2;
+}
+.sunday-header {
+    grid-area: day3;
+}
+.e1name {
+    grid-area: e1name;
+}
+.e1time {
+    grid-area: e1time;
+}
+.e2name {
+    grid-area: e2name;
+}
+.e2time {
+    grid-area: e2time;
+}
+.e3name {
+    grid-area: e3name;
+}
+.e3time {
+    grid-area: e3time;
+}
+.e4name {
+    grid-area: e4name;
+}
+.e4time {
+    grid-area: e4time;
+}
+.e5name {
+    grid-area: e5name;
+}
+.e5time {
+    grid-area: e5time;
+}
+
+
+
