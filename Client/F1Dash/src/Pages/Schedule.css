@@ -28,47 +28,69 @@
         "e2time e4time blank2";
 
     grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto auto auto auto;                    
+    grid-template-rows: 1.5rem 1.5rem auto 1.5rem auto;                    
 }
 
 .friday-header {
     grid-area: day1;
+    font-size: 1.5rem;
+    line-height: 0.5rem;
+    font-weight: bold;
+    margin-top: 10px;
 }
 .saturday-header {
     grid-area: day2;
+    font-size: 1.5rem;
+    line-height: 0.5rem;
+    font-weight: bold;
+    margin-top: 10px;
 }
 .sunday-header {
     grid-area: day3;
+    font-size: 1.5rem;
+    line-height: 0.5rem;
+    font-weight: bold;
+    margin-top: 10px;
 }
 .e1name {
     grid-area: e1name;
+    font-weight: bold;
 }
 .e1time {
     grid-area: e1time;
+    font-size: 0.92rem;
 }
 .e2name {
     grid-area: e2name;
+    font-weight: bold;
 }
 .e2time {
     grid-area: e2time;
+    font-size: 0.92rem;
 }
 .e3name {
     grid-area: e3name;
+    font-weight: bold;
 }
 .e3time {
     grid-area: e3time;
+    font-size: 0.92rem;
 }
 .e4name {
     grid-area: e4name;
+    font-weight: bold;
 }
 .e4time {
     grid-area: e4time;
+    font-size: 0.92rem;
 }
 .e5name {
     grid-area: e5name;
+    font-weight: bold;
 }
 .e5time {
     grid-area: e5time;
+    font-size: 0.92rem;
 }
 
 

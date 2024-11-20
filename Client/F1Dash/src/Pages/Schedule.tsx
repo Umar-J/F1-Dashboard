@@ -1,7 +1,7 @@
-
 import Navbar from "../Components/Navbar"
 import {useState, useEffect} from 'react'
 import './Schedule.css'
+import React from "react";
 
 export interface Race_Weekend {
   Country: string;
@@ -53,39 +53,21 @@ function Schedule() {
                   {new Date(weekend.Events[weekend.Events.length - 1].Start).getDate()}
                 </p>
               </div>
-            <hr style={{width: '500px', textAlign: 'left', marginLeft: 0}}/>
-            <div className="weekend-container" style = {{maxWidth:'500px'}}>
-              <p className="friday-header">Friday</p>
+              <hr style={{width: '500px', textAlign: 'left', marginLeft: 0}}/>
+              <div className="weekend-container" style = {{maxWidth:'500px'}}>
+              <p className="friday-header" style = {{fontSize:'1.5rem', lineHeight:'0.5rem', fontWeight:'bold'}}>Friday</p>
               <p className="saturday-header">Saturday</p>
               <p className="sunday-header">Sunday</p>
-              <p className="e1name">{weekend.Events[0].Name}</p>
-              <p className="e1time">
-                {new Date(weekend.Events[0].Start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " - "}
-                {new Date(weekend.Events[0].End).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-              </p>
-              <p className="e2name">{weekend.Events[1].Name}</p>
-              <p className="e2time">
-                {new Date(weekend.Events[1].Start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " - "}
-                {new Date(weekend.Events[1].End).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-              </p>
-              <p className="e3name">{weekend.Events[2].Name}</p>
-              <p className="e3time">
-                {new Date(weekend.Events[2].Start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " - "}
-                {new Date(weekend.Events[2].End).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-              </p>
-              <p className="e4name">{weekend.Events[3].Name}</p>
-              <p className="e4time">
-                {new Date(weekend.Events[3].Start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " - "}
-                {new Date(weekend.Events[3].End).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-              </p>
-              <p className="e5name">{weekend.Events[4]?.Name}</p>
-              <p className="e5time">
-                {new Date(weekend.Events[4]?.Start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " - "}
-                {new Date(weekend.Events[4]?.End).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-              </p>
-              
-            </div>
-              
+              {weekend.Events.map((event, eventIndex) => (
+                <>
+                  <p className={`e${eventIndex + 1}name`}>{event.Name}</p>
+                  <p className={`e${eventIndex + 1}time`}>
+                    {new Date(event.Start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - "}
+                    {new Date(event.End).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </>
+              ))}
+              </div>
             </div>
           ))
         )}
