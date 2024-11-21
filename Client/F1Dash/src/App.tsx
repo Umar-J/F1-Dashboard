@@ -23,7 +23,7 @@ function App() {
     <>
       <Navbar />
       <div className='center-container'>
-        <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200}/>
+        <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200} style = {{marginTop:'400px'}}/>
         <h1 className='maintext centertext'>Real-time Formula 1<br/>telemetry and timing</h1>
       </div>
       <div className='center-container'>

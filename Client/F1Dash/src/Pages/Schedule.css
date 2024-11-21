@@ -59,6 +59,7 @@
 .e1time {
     grid-area: e1time;
     font-size: 0.92rem;
+    color: rgb(164, 162, 162);
 }
 .e2name {
     grid-area: e2name;
@@ -67,6 +68,7 @@
 .e2time {
     grid-area: e2time;
     font-size: 0.92rem;
+    color: rgb(164, 162, 162);
 }
 .e3name {
     grid-area: e3name;
@@ -75,6 +77,7 @@
 .e3time {
     grid-area: e3time;
     font-size: 0.92rem;
+    color: rgb(164, 162, 162);
 }
 .e4name {
     grid-area: e4name;
@@ -83,6 +86,7 @@
 .e4time {
     grid-area: e4time;
     font-size: 0.92rem;
+    color: rgb(164, 162, 162);
 }
 .e5name {
     grid-area: e5name;
@@ -91,7 +95,67 @@
 .e5time {
     grid-area: e5time;
     font-size: 0.92rem;
+    color: rgb(164, 162, 162);
 }
 
-
-
+.countdown-container {
+    display: grid;
+    grid-template-areas: 
+        "top top top top"
+        "days hours minutes seconds"
+        "ldays lhours lminutes lseconds";
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto 1.4rem auto;
+}
+ 
+.header {
+    grid-area: top;
+    font-size: 1.5rem;
+    line-height: 0.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.days {
+    grid-area: days;
+    font-size: 2.5rem;
+    line-height: 0.5rem;
+    margin-top: 10px;
+}
+.hours {
+    grid-area: hours;
+    font-size: 2.5rem;
+    line-height: 0.5rem;
+    margin-top: 10px;
+}
+.minutes {
+    grid-area: minutes;
+    font-size: 2.5rem;
+    line-height: 0.5rem;
+    margin-top: 10px;
+}
+.seconds {
+    grid-area: seconds;
+    font-size: 2.5rem;
+    line-height: 0.5rem;
+    margin-top: 10px;
+}
+.ldays {
+    grid-area: ldays;
+    font-size: 0.92rem;
+    color: rgb(164, 162, 162);
+}
+.lhours {
+    grid-area: lhours;
+    font-size: 0.92rem;
+    color: rgb(164, 162, 162);
+}
+.lminutes {
+    grid-area: lminutes;
+    font-size: 0.92rem;
+    color: rgb(164, 162, 162);
+}
+.lseconds {
+    grid-area: lseconds;
+    font-size: 0.92rem;
+    color: rgb(164, 162, 162);
+}
