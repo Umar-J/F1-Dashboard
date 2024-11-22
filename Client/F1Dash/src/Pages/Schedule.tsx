@@ -16,10 +16,11 @@ export interface Event {
 }
 
 function Schedule() {
-  
   const [raceWeekends, setRaceWeekends] = useState<Race_Weekend[]>([]);
+  const [nextRaceTimeRemaining, setNextRaceTimeRemaining] = useState(new Date(0));
+  const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState(new Date(0));  
   const [nextRaceTime, setNextRaceTime] = useState(new Date(0));
-  const [nextSessionTime, setNextSessionTimeS] = useState(new Date(0));
+  const [nextSessionTime, setNextSessionTime] = useState(new Date(0));
 
   useEffect(() => {
      fetch('/api/schedule')
@@ -33,19 +34,19 @@ function Schedule() {
   }, []);
 
   useEffect (() => {
-    const nextRaceTimeCalc = new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => event.Name.match("Race"))?.Start || 0);
-    setNextRaceTime(new Date(nextRaceTimeCalc.getTime() - Date.now()));
-    const nextSessionTimeCalc = new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => new Date(event.Start).getTime() > Date.now())?.Start || 0);
-    setNextSessionTimeS(new Date(nextSessionTimeCalc.getTime() - Date.now()));
+    setNextRaceTime(new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => event.Name.match("Race"))?.Start || 0));
+    setNextRaceTimeRemaining(new Date(nextRaceTime.getTime() - Date.now()));
+    setNextSessionTime(new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => new Date(event.Start).getTime() > Date.now())?.Start || 0));
+    setNextSessionTimeRemaining(new Date(nextSessionTime.getTime() - Date.now()));
   }, [raceWeekends])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setNextRaceTime(new Date(nextRaceTime.getTime() - 1000));
-      setNextSessionTimeS(new Date(nextSessionTime.getTime() - 1000))
+      setNextRaceTimeRemaining(new Date(nextRaceTime.getTime() - Date.now()));
+      setNextSessionTimeRemaining(new Date(nextSessionTime.getTime() - Date.now()));
     }, 1000);
     return () => clearInterval(interval);
-  }, [nextRaceTime]);
+  }, [nextRaceTimeRemaining, nextSessionTimeRemaining]);
   
   return (
     <>
@@ -56,10 +57,10 @@ function Schedule() {
       <p className="text-zinc-600">All times are local</p>
       <div className = "countdown-container" style = {{maxWidth:'350px'}}>
         <p className="header">Next Session in</p>
-        <p className="days">{nextSessionTime.getUTCDate() - 1}</p>
-        <p className="hours">{nextSessionTime.getUTCHours()}</p>
-        <p className="minutes">{nextSessionTime.getUTCMinutes()}</p>
-        <p className="seconds">{nextSessionTime.getUTCSeconds()}</p>
+        <p className="days">{nextSessionTimeRemaining.getUTCDate() - 1}</p>
+        <p className="hours">{nextSessionTimeRemaining.getUTCHours()}</p>
+        <p className="minutes">{nextSessionTimeRemaining.getUTCMinutes()}</p>
+        <p className="seconds">{nextSessionTimeRemaining.getUTCSeconds()}</p>
         <p className="ldays">Days</p>
         <p className="lhours">Hours</p>
         <p className="lminutes">Minutes</p>
@@ -68,10 +69,10 @@ function Schedule() {
 
       <div className = "countdown-container" style = {{maxWidth:'350px'}}>
         <p className="header">Next race in</p>
-        <p className="days">{nextRaceTime.getUTCDate() - 1}</p>
-        <p className="hours">{nextRaceTime.getUTCHours()}</p>
-        <p className="minutes">{nextRaceTime.getUTCMinutes()}</p>
-        <p className="seconds">{nextRaceTime.getUTCSeconds()}</p>
+        <p className="days">{nextRaceTimeRemaining.getUTCDate() - 1}</p>
+        <p className="hours">{nextRaceTimeRemaining.getUTCHours()}</p>
+        <p className="minutes">{nextRaceTimeRemaining.getUTCMinutes()}</p>
+        <p className="seconds">{nextRaceTimeRemaining.getUTCSeconds()}</p>
         <p className="ldays">Days</p>
         <p className="lhours">Hours</p>
         <p className="lminutes">Minutes</p>
