@@ -23,13 +23,17 @@ function App() {
     <>
       <Navbar />
       <div className='center-container'>
-        <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200} style = {{marginTop:'400px'}}/>
+        <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200} style = {{marginTop:'300px'}}/>
         <h1 className='maintext centertext'>Real-time Formula 1<br/>telemetry and timing</h1>
       </div>
       <div className='center-container'>
         <div className='flex-wrap'>
-          <button className='centertext'>Go to Dashboard</button>
-          <button className='centertext'>Check Schedule</button>
+         <a href='/dashboard'> 
+          <button className='centertext'>Go to Dashboard</button> 
+        </a>
+         <a href = "/schedule">
+          <button className='centertext' style={{backgroundColor:'transparent', border:'2px solid', borderColor:'darkgray'}}>Check Schedule</button>
+        </a> 
         </div>
       </div>
     </>

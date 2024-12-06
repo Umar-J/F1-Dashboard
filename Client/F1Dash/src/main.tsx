@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Schedule from './Pages/Schedule.tsx'
+import Dashboard from './Pages/Dashboard.tsx'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: '/schedule',
     element: <Schedule />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard/>
   }
 ]);
 

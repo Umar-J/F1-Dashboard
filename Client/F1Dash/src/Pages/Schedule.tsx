@@ -17,15 +17,18 @@ export interface Event {
 
 function Schedule() {
   const [raceWeekends, setRaceWeekends] = useState<Race_Weekend[]>([]);
-  const [nextRaceTimeRemaining, setNextRaceTimeRemaining] = useState(new Date(0));
-  const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState(new Date(0));  
-  const [nextRaceTime, setNextRaceTime] = useState(new Date(0));
-  const [nextSessionTime, setNextSessionTime] = useState(new Date(0));
+
+  const [nextRaceTime, setNextRaceTime] = useState<Date>(new Date(0));
+  const [nextRaceTimeRemaining, setNextRaceTimeRemaining] = useState<Date>(new Date(0));
+  
+  const [nextSessionTime, setNextSessionTime] = useState<Date>(new Date(0));
+  const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState<Date>(new Date(0));  
 
   useEffect(() => {
      fetch('/api/schedule')
         .then((response) => response.json())
         .then((data: Race_Weekend[]) => {
+          // TODO: Parse the date objects
            setRaceWeekends(data);
         })
         .catch((err) => {
@@ -50,9 +53,8 @@ function Schedule() {
   
   return (
     <>
-    <style>
-    </style>
       <Navbar />
+      {/* TODO: Make flex template to allow these divs to be in rows of length 2 */}
       <h1 className="text-3xl" style = {{marginTop : 50}} >Up Next</h1>
       <p className="text-zinc-600">All times are local</p>
       <div className = "countdown-container" style = {{maxWidth:'350px'}}>
