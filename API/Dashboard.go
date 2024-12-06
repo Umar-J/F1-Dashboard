@@ -17,12 +17,13 @@ type Weather_Info struct {
 	WindSpeed        float32 `json:"wind_speed"`
 }
 
-func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
+func GetWeatherData() (*[]byte, error) {
+	// replace with live
 	weatherURL := "https://api.openf1.org/v1/weather?meeting_key=1208&wind_direction%3E=130&track_temperature%3E=52"
 	weatherResp, err := http.Get(weatherURL)
 	if err != nil {
 		fmt.Println("Error gettting weather")
-		return
+		return nil, err
 	}
 	defer weatherResp.Body.Close()
 	readData, _ := ioutil.ReadAll(weatherResp.Body)
@@ -32,8 +33,7 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 	err = json.Unmarshal(readData, &weatherData)
 	if err != nil {
 		fmt.Println("Unmarshal error:", err) // Debugging statement
-		http.Error(writer, "Failed to parse weather data", http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 
 	fmt.Println("airTemp", weatherData[0].AirTemperature)
@@ -43,19 +43,32 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println("WindDirection", weatherData[0].WindDirection)
 	fmt.Println("WindSpeed", weatherData[0].WindSpeed)
 
-	fmt.Println("Accessed Dashboard") // Debug
-	
 	// setup SSE (server side event) channel
+	weatherJson, _ := json.Marshal(weatherData[len(weatherData)-1])
+	return &weatherJson, nil
+}
+
+func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
+	fmt.Println("Accessed Dashboard") // Debug
+
 	writer.Header().Set("Content-Type", "text/event-stream")
 	writer.Header().Set("Cache-Control", "no-cache")
 	writer.Header().Set("Connection", "keep-alive")
 	writer.Header().Set("Access-Control-Allow-Origin", "*")
 	writer.(http.Flusher).Flush()
 
-	weatherJson, _ := json.Marshal(weatherData[len(weatherData)-1])
+	// todo, run this in goroutine, once every minute, getting latest data
+	// 1. make sure this "dashboard handler" doensnt return
+	// 2. implement way to finish routine? - if http request recieved (later)
+	weatherJson, err := GetWeatherData()
+
+	if err != nil {
+		http.Error(writer, "Failed to parse weather data", http.StatusInternalServerError)
+		return
+	}
 
 	for i := 0; i < 10; i++ {
-		fmt.Fprintf(writer, "event: weather\ndata:%s\n\n", weatherJson)
+		fmt.Fprintf(writer, "event: weather\ndata:%s\n\n", *weatherJson)
 		writer.(http.Flusher).Flush()
 		time.Sleep(time.Second)
 	}

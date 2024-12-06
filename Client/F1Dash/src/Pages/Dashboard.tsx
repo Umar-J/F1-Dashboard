@@ -14,14 +14,11 @@ function Dashboard() {
   const [data, setData] = useState<Weather_Info | null>(null);
 
   useEffect(() => {
-    console.log("Creating new EventSource");
     const eventSource = new EventSource('/api/dashboard');
     eventSource.addEventListener('weather', (event) => {
-      console.log("Weather event received", event.data);
       try {
         const parsedData: Weather_Info = JSON.parse(event.data);
         setData(parsedData);
-        console.log(data?.air_temperature)
       } catch (error) {
         console.error("Failed to parse JSON:", error);
       }
@@ -42,7 +39,7 @@ function Dashboard() {
     <>
       <Navbar />
       <h1>Dashboard</h1>
-      <div>
+      <div style={{display:"flex", gap:"2rem"}}>
         {/* use handdrawn template */}
         {data ? (
           <>
