@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -60,6 +61,14 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 	// todo, run this in goroutine, once every minute, getting latest data
 	// 1. make sure this "dashboard handler" doensnt return
 	// 2. implement way to finish routine? - if http request recieved (later)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go FetchWeatherData(writer, request, &wg)
+	wg.Wait()
+}
+
+func FetchWeatherData(writer http.ResponseWriter, request *http.Request, wg *sync.WaitGroup) {
+	defer wg.Done()
 	weatherJson, err := GetWeatherData()
 
 	if err != nil {
@@ -67,9 +76,15 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	for i := 0; i < 10; i++ {
+	for {
 		fmt.Fprintf(writer, "event: weather\ndata:%s\n\n", *weatherJson)
 		writer.(http.Flusher).Flush()
-		time.Sleep(time.Second)
+		time.Sleep(time.Second) // minute in actual application
+
+		select {
+		case <-request.Context().Done():
+			return
+		default:
+		}
 	}
 }
