@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -21,7 +21,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	}
 	defer response.Body.Close()
 
-	read, readErr := ioutil.ReadAll(response.Body)
+	read, readErr := io.ReadAll(response.Body)
 
 	if readErr != nil {
 		fmt.Println(readErr.Error())

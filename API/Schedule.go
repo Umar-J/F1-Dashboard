@@ -92,7 +92,7 @@ func GetRaceWeekends() *string {
 		}
 		prevCountry = country
 	}
-	// Debug
+	// Debug //
 	// for i, weekend := range raceWeekends {
 	// 	fmt.Printf("Weekend %d: %+v\n", i, weekend)
 	// }
