@@ -24,8 +24,7 @@ type Session_Info struct {
 }
 
 func GetWeatherData() (*[]byte, error) {
-	weatherURL := "https://api.openf1.org/v1/weather?meeting_key=1208&wind_direction%3E=130&track_temperature%3E=52"
-	// weatherURL := "https://api.openf1.org/v1/weather?meeting_key=latest"
+	weatherURL := "https://api.openf1.org/v1/weather?meeting_key=latest"
 	weatherResp, err := http.Get(weatherURL)
 	if err != nil {
 		fmt.Println("Error gettting weather")
@@ -42,14 +41,6 @@ func GetWeatherData() (*[]byte, error) {
 		return nil, err
 	}
 
-	// Debugging
-	// fmt.Println("airTemp", weatherData[0].AirTemperature)
-	// fmt.Println("TrackTemperature", weatherData[0].TrackTemperature)
-	// fmt.Println("Humidity", weatherData[0].Humidity)
-	// fmt.Println("Rain", weatherData[0].Rain)
-	// fmt.Println("WindDirection", weatherData[0].WindDirection)
-	// fmt.Println("WindSpeed", weatherData[0].WindSpeed)
-
 	// setup SSE (server side event) channel
 	weatherJson, _ := json.Marshal(weatherData[len(weatherData)-1])
 	return &weatherJson, nil
@@ -64,12 +55,14 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		http.Error(writer, "Failed to get session info", http.StatusInternalServerError)
 		return
 	}
-	writer.Write(*sessionInfo)
 
 	writer.Header().Set("Content-Type", "text/event-stream")
 	writer.Header().Set("Cache-Control", "no-cache")
 	writer.Header().Set("Connection", "keep-alive")
 	writer.Header().Set("Access-Control-Allow-Origin", "*")
+	writer.(http.Flusher).Flush()
+
+	writer.Write(*sessionInfo)
 	writer.(http.Flusher).Flush()
 
 	// todo, run this in goroutine, once every minute, getting latest data
@@ -103,9 +96,8 @@ func FetchWeatherData(writer http.ResponseWriter, request *http.Request, wg *syn
 
 func GetSessionInfo() (*[]byte, error) {
 	// get venue name:
-	// url := "https://api.openf1.org/v1/meetings?meeting_key=latest"
+	url := "https://api.openf1.org/v1/meetings?meeting_key=latest"
 
-	url := "https://api.openf1.org/v1/meetings?year=2023&country_name=Singapore"
 	req, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -116,14 +108,12 @@ func GetSessionInfo() (*[]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	//fmt.Println(string(body))
 
 	sessionInfo := []Session_Info{}
 	json.Unmarshal(body, &sessionInfo)
 	meetingName := sessionInfo[0].MeetingName
 
-	url2 := "https://api.openf1.org/v1/sessions?country_name=Belgium&session_name=Sprint&year=2023"
-	// url2 := "https://api.openf1.org/v1/sessions?meeting_key=latest"
+	url2 := "https://api.openf1.org/v1/sessions?meeting_key=latest"
 
 	req2, err := http.Get(url2)
 	if err != nil {
