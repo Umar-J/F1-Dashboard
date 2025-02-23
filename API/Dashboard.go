@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"sync"
 	"time"
@@ -25,8 +24,9 @@ type Session_Info struct {
 }
 
 type Driver struct {
-	DriverNumber int    `json:"driver_number"`
-	NameAcronym  string `json:"name_acronym"`
+	DriverNumber int     `json:"driver_number"`
+	NameAcronym  string  `json:"name_acronym"`
+	Position     float64 `json:"position"`
 }
 
 func GetWeatherData() (*[]byte, error) {
@@ -146,16 +146,15 @@ func GetSessionInfo() (*[]byte, error) {
 	return &toReturn, nil
 }
 
-func UpdateDriverInfo() {
+func UpdateDriverInfo() (*[]byte, error) {
 	drivers := []Driver{}
-	//var lap int
 	var m []map[string]interface{}
 	url := "https://api.openf1.org/v1/drivers?session_key=latest"
 	data, err := http.Get(url)
 	if err != nil {
 
 	}
-	readData, err := ioutil.ReadAll(data.Body)
+	readData, err := io.ReadAll(data.Body)
 	if err != nil {
 
 	}
@@ -181,7 +180,11 @@ func UpdateDriverInfo() {
 			fmt.Println("Error unmarshalling position data for driver", driver.DriverNumber, ":", err)
 			continue
 		}
-
-		fmt.Println("Driver", driver.DriverNumber, "Position:", m[len(m)-1]["position"])
+		driver.Position = m[len(m)-1]["position"].(float64)
 	}
+	jsonString, err := json.Marshal(drivers)
+	if err != nil {
+		return nil, err
+	}
+	return &jsonString, nil
 }
