@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"sync"
 	"time"
@@ -21,6 +22,11 @@ type Weather_Info struct {
 type Session_Info struct {
 	MeetingName string `json:"meeting_name"`
 	SessionType string `json:"session_type"`
+}
+
+type Driver struct {
+	DriverNumber int    `json:"driver_number"`
+	NameAcronym  string `json:"name_acronym"`
 }
 
 func GetWeatherData() (*[]byte, error) {
@@ -49,6 +55,7 @@ func GetWeatherData() (*[]byte, error) {
 func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 	var wg sync.WaitGroup
 	fmt.Println("Accessed Dashboard")
+	UpdateDriverInfo()
 
 	sessionInfo, err := GetSessionInfo()
 	if err != nil {
@@ -129,7 +136,6 @@ func GetSessionInfo() (*[]byte, error) {
 	json.Unmarshal(body2, &sessionInfo)
 	SessionType := sessionInfo[0].SessionType
 
-	fmt.Println(meetingName, " + ", SessionType)
 	returnSessionInfo := Session_Info{meetingName, SessionType}
 
 	toReturn, err := json.Marshal(returnSessionInfo)
@@ -138,4 +144,44 @@ func GetSessionInfo() (*[]byte, error) {
 	}
 
 	return &toReturn, nil
+}
+
+func UpdateDriverInfo() {
+	drivers := []Driver{}
+	//var lap int
+	var m []map[string]interface{}
+	url := "https://api.openf1.org/v1/drivers?session_key=latest"
+	data, err := http.Get(url)
+	if err != nil {
+
+	}
+	readData, err := ioutil.ReadAll(data.Body)
+	if err != nil {
+
+	}
+	json.Unmarshal(readData, &drivers)
+	// get position -> lap of leader
+	for _, driver := range drivers {
+		posUrl := "https://api.openf1.org/v1/position?meeting_key=latest&driver_number=" + fmt.Sprintf("%d", driver.DriverNumber)
+		data, err := http.Get(posUrl)
+		if err != nil {
+			fmt.Println("Error getting position for driver", driver.DriverNumber, ":", err)
+			continue
+		}
+		defer data.Body.Close()
+
+		jsonData, err := io.ReadAll(data.Body)
+		if err != nil {
+			fmt.Println("Error reading position data for driver", driver.DriverNumber, ":", err)
+			continue
+		}
+
+		err = json.Unmarshal(jsonData, &m)
+		if err != nil {
+			fmt.Println("Error unmarshalling position data for driver", driver.DriverNumber, ":", err)
+			continue
+		}
+
+		fmt.Println("Driver", driver.DriverNumber, "Position:", m[len(m)-1]["position"])
+	}
 }
