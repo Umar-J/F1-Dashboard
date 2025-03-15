@@ -30,7 +30,8 @@ type Driver struct {
 }
 
 func GetWeatherData() (*[]byte, error) {
-	weatherURL := "https://api.openf1.org/v1/weather?meeting_key=latest"
+	fetchTime := time.Now().Add(-time.Minute * 1).Format(time.RFC3339)
+	weatherURL := fmt.Sprintf("https://api.openf1.org/v1/weather?meeting_key=latest&date>%s", fetchTime)
 	weatherResp, err := http.Get(weatherURL)
 	if err != nil {
 		fmt.Println("Error gettting weather")
