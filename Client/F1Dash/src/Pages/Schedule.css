@@ -18,6 +18,12 @@
     justify-content: end;
 }
 
+.twoWide-container {
+    display: grid;
+    grid-template-areas:
+    "left right";
+}
+
 .weekend-container {
     display: grid;
     grid-template-areas: 
@@ -104,7 +110,6 @@
         "top top top top"
         "days hours minutes seconds"
         "ldays lhours lminutes lseconds";
-    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto 1.4rem auto;
 }
  
@@ -158,4 +163,14 @@
     grid-area: lseconds;
     font-size: 0.92rem;
     color: rgb(164, 162, 162);
+}
+.eventComplete {
+    color: rgb(87, 89, 83);
+}
+
+.eventComplete hr {
+    border-color: rgb(87, 89, 83);
+}
+.eventComplete p {
+    border-color: rgb(87, 89, 83);
 }

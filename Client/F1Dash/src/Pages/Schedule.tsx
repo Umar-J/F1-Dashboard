@@ -55,37 +55,37 @@ function Schedule() {
     <>
       <Navbar />
       {/* TODO: Make flex template to allow these divs to be in rows of length 2 */}
-      <h1 className="text-3xl" style = {{marginTop : 50}} >Up Next</h1>
-      <p className="text-zinc-600">All times are local</p>
-      <div className = "countdown-container" style = {{maxWidth:'350px'}}>
-        <p className="header">Next Session in</p>
-        <p className="days">{nextSessionTimeRemaining.getUTCDate() - 1}</p>
-        <p className="hours">{nextSessionTimeRemaining.getUTCHours()}</p>
-        <p className="minutes">{nextSessionTimeRemaining.getUTCMinutes()}</p>
-        <p className="seconds">{nextSessionTimeRemaining.getUTCSeconds()}</p>
-        <p className="ldays">Days</p>
-        <p className="lhours">Hours</p>
-        <p className="lminutes">Minutes</p>
-        <p className="lseconds">Seconds</p>
-      </div>
+        <h1 className="text-3xl" style = {{marginTop : 50}} >Up Next</h1>
+        <p className="text-zinc-600 left">All times are local</p>
+        <div className = "countdown-container" style = {{maxWidth:'350px'}}>
+          <p className="header">Next Session in</p>
+          <p className="days">{nextSessionTimeRemaining.getUTCDate() - 1}</p>
+          <p className="hours">{nextSessionTimeRemaining.getUTCHours()}</p>
+          <p className="minutes">{nextSessionTimeRemaining.getUTCMinutes()}</p>
+          <p className="seconds">{nextSessionTimeRemaining.getUTCSeconds()}</p>
+          <p className="ldays">Days</p>
+          <p className="lhours">Hours</p>
+          <p className="lminutes">Minutes</p>
+          <p className="lseconds">Seconds</p>
+        </div>
 
-      <div className = "countdown-container" style = {{maxWidth:'350px'}}>
-        <p className="header">Next race in</p>
-        <p className="days">{nextRaceTimeRemaining.getUTCDate() - 1}</p>
-        <p className="hours">{nextRaceTimeRemaining.getUTCHours()}</p>
-        <p className="minutes">{nextRaceTimeRemaining.getUTCMinutes()}</p>
-        <p className="seconds">{nextRaceTimeRemaining.getUTCSeconds()}</p>
-        <p className="ldays">Days</p>
-        <p className="lhours">Hours</p>
-        <p className="lminutes">Minutes</p>
-        <p className="lseconds">Seconds</p>
-      </div>
-      <div>
+        <div className = "countdown-container" style = {{maxWidth:'350px'}}>
+          <p className="header">Next race in</p>
+          <p className="days">{nextRaceTimeRemaining.getUTCDate() - 1}</p>
+          <p className="hours">{nextRaceTimeRemaining.getUTCHours()}</p>
+          <p className="minutes">{nextRaceTimeRemaining.getUTCMinutes()}</p>
+          <p className="seconds">{nextRaceTimeRemaining.getUTCSeconds()}</p>
+          <p className="ldays">Days</p>
+          <p className="lhours">Hours</p>
+          <p className="lminutes">Minutes</p>
+          <p className="lseconds">Seconds</p>
+        </div>
+      <div className="twoWide-container">
         {raceWeekends.length === 0 ? (
           <p>Loading...</p>
         ) : (
           raceWeekends.map((weekend, index) => (
-            <div key={index}>
+            <div key={index} className={`${weekend.IsOver ? 'eventComplete' : ''}`}>
               <div className="country-container" style={{maxWidth: '500px'}}>
                 <h2 className="text-2xl item1country">{weekend.Country}</h2>
                 <h2 className="text-2xl item2country">
