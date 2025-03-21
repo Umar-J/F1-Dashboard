@@ -1,13 +1,21 @@
 .country-container{
     display: grid;
-    grid-template-areas: "country month dates";
-    grid-template-columns: 4fr Auto auto;
+    grid-template-areas: "country current month dates";
+    grid-template-columns: 1fr 2.3fr Auto Auto;
     grid-template-rows: 4rem;
 }
 
 .item1country {
     grid-area: country;
 }
+.weekendStatus {
+    grid-area: current;
+    font-size: small;
+    justify-content: left;
+    vertical-align: bottom;
+    color: rgb(72, 72, 220);
+}
+
 .item2country {
     grid-area: month;
     margin-right : 10px;
