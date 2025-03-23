@@ -1,7 +1,6 @@
 import Navbar from "../Components/Navbar"
 import {useState, useEffect} from 'react'
 import './Schedule.css'
-import React from "react";
 
 export interface Race_Weekend {
   Country: string;
