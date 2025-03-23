@@ -1,4 +1,4 @@
-module f1dash/api
+module github.com/umar-j/f1dash/api
 
 go 1.23.3
 
