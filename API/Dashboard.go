@@ -76,8 +76,10 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 	// todo, run this in goroutine, once every minute, getting latest data
 	// 1. make sure this "dashboard handler" doensnt return
 	// 2. implement way to finish routine? - if http request recieved (later)
+	// wg.Add(1)
+	// go FetchWeatherData(writer, request, &wg)
 	wg.Add(1)
-	go FetchWeatherData(writer, request, &wg)
+	go FetchDriverInfo(writer, request, &wg)
 	wg.Wait()
 }
 
@@ -94,6 +96,20 @@ func FetchWeatherData(writer http.ResponseWriter, request *http.Request, wg *syn
 		writer.(http.Flusher).Flush()
 		time.Sleep(time.Second) // minute in actual application
 
+		select {
+		case <-request.Context().Done():
+			return
+		default:
+		}
+	}
+}
+
+func FetchDriverInfo(writer http.ResponseWriter, request *http.Request, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for {
+		driverData, _ := UpdateDriverInfo()
+		fmt.Fprintf(writer, "event: drivers\ndata:%s\n\n", *driverData)
+		time.Sleep(time.Second)
 		select {
 		case <-request.Context().Done():
 			return
@@ -153,16 +169,21 @@ func UpdateDriverInfo() (*[]byte, error) {
 	url := "https://api.openf1.org/v1/drivers?session_key=latest"
 	data, err := http.Get(url)
 	if err != nil {
-
+		fmt.Println("Error getting drivers:", err)
+		return nil, err
 	}
+	defer data.Body.Close()
+
 	readData, err := io.ReadAll(data.Body)
 	if err != nil {
-
+		fmt.Println("Error reading driver data:", err)
+		return nil, err
 	}
 	json.Unmarshal(readData, &drivers)
-	// get position -> lap of leader
+
 	for _, driver := range drivers {
 		posUrl := "https://api.openf1.org/v1/position?meeting_key=latest&driver_number=" + fmt.Sprintf("%d", driver.DriverNumber)
+		time.Sleep(500 * time.Millisecond)
 		data, err := http.Get(posUrl)
 		if err != nil {
 			fmt.Println("Error getting position for driver", driver.DriverNumber, ":", err)
