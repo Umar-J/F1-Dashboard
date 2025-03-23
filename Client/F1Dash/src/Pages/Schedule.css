@@ -1,8 +1,9 @@
-.country-container{
+.country-container {
     display: grid;
     grid-template-areas: "country current month dates";
-    grid-template-columns: 1fr 2.3fr Auto Auto;
+    grid-template-columns: auto 2fr auto auto;
     grid-template-rows: 4rem;
+    column-gap: 10px;
 }
 
 .item1country {
