@@ -36,5 +36,5 @@ func main() {
 	http.HandleFunc("GET /data/", handler)
 	http.HandleFunc("GET /schedule/", ScheduleHandler)
 	http.HandleFunc("GET /dashboard/", DashboardHandler)
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe("0.0.0.0:"+port, nil)
 }

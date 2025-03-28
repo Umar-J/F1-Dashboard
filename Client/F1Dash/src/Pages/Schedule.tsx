@@ -24,7 +24,7 @@ function Schedule() {
   const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState<Date>(new Date(0));  
 
   useEffect(() => {
-     fetch('/api/schedule')
+     fetch('/api/schedule/')
         .then((response) => response.json())
         .then((data: Race_Weekend[]) => {
           // TODO: Parse the date objects

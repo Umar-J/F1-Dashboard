@@ -14,6 +14,17 @@ services:
       target: final
     ports:
       - 8080:8080
+    expose:
+      - "8080"
+
+  client:
+    build: ./Client/F1Dash
+    ports:
+      - 5173:5173
+    environment:
+      - API_PROXY_TARGET=http://server:8080  
+    depends_on:
+      - server
 
 
 # The commented out section below is an example of how to define a PostgreSQL
