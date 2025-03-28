@@ -33,8 +33,8 @@ func main() {
 	port := "8080"
 	fmt.Println("Server Running on port " + port +
 		"\nAccess by going to http://localhost:" + port + "/")
-	http.HandleFunc("/data", handler)
-	http.HandleFunc("/schedule", ScheduleHandler)
-	http.HandleFunc("/dashboard", DashboardHandler)
+	http.HandleFunc("GET /data/", handler)
+	http.HandleFunc("GET /schedule/", ScheduleHandler)
+	http.HandleFunc("GET /dashboard/", DashboardHandler)
 	http.ListenAndServe(":"+port, nil)
 }
