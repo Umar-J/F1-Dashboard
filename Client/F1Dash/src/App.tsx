@@ -6,7 +6,7 @@ import Navbar from './Components/Navbar';
 function App() {
   const [, setData] = useState([]);
   useEffect(() => {
-     fetch('/api/data')
+     fetch('/api/data/')
         .then((response) => response.json())
         .then((data) => {
            console.log(data);
