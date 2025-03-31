@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/umar-j/f1dash/api/Handlers"
 )
 
 func handler(writer http.ResponseWriter, request *http.Request) {
@@ -36,5 +38,6 @@ func main() {
 	http.HandleFunc("GET /data/", handler)
 	http.HandleFunc("GET /schedule/", ScheduleHandler)
 	http.HandleFunc("GET /dashboard/", DashboardHandler)
+	http.HandleFunc("GET /standings/", handlers.StandingsHandler)
 	http.ListenAndServe("0.0.0.0:"+port, nil)
 }
