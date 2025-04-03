@@ -6,6 +6,7 @@ function Navbar() {
             <Link to="/">Home</Link>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/schedule">Schedule</Link>
+            <Link to="/standings">Standings</Link>
             <Link to="/settings">Settings</Link>
             <Link to="/help">Help</Link>
         </div>

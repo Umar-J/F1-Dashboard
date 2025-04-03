@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import mainImage from '/main-logo.svg'
 import './App.css'
-import { Link } from 'react-router-dom';
 import Navbar from './Components/Navbar';
-import Schedule from './Pages/Schedule';
 
 function App() {
-  const [data, setData] = useState([]);
+  const [, setData] = useState([]);
   useEffect(() => {
-     fetch('/api/data')
+     fetch('/api/data/')
         .then((response) => response.json())
         .then((data) => {
            console.log(data);
@@ -24,7 +22,10 @@ function App() {
       <Navbar />
       <div className='center-container'>
         <img className='centertext' src={mainImage} alt="F1 Dash logo" width={200} style = {{marginTop:'300px'}}/>
-        <h1 className='maintext centertext'>Real-time Formula 1<br/>telemetry and timing</h1>
+        <h1 className='maintext centertext'>
+  <div>Real-time Formula 1</div>
+  <div>telemetry and timing</div>
+</h1>
       </div>
       <div className='center-container'>
         <div className='flex-wrap'>

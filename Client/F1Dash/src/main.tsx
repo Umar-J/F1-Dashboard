@@ -5,6 +5,7 @@ import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Schedule from './Pages/Schedule.tsx'
 import Dashboard from './Pages/Dashboard.tsx'
+import Standings from './Pages/Standings.tsx'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Dashboard/>
+  },
+  {
+    path: '/standings',
+    element: <Standings/>
   }
 ]);
 

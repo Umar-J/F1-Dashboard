@@ -1,7 +1,6 @@
 import Navbar from "../Components/Navbar"
 import {useState, useEffect} from 'react'
 import './Schedule.css'
-import React from "react";
 
 export interface Race_Weekend {
   Country: string;
@@ -25,7 +24,7 @@ function Schedule() {
   const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState<Date>(new Date(0));  
 
   useEffect(() => {
-     fetch('/api/schedule')
+     fetch('/api/schedule/')
         .then((response) => response.json())
         .then((data: Race_Weekend[]) => {
           // TODO: Parse the date objects
