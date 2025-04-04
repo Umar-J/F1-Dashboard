@@ -37,7 +37,7 @@ func main() {
 		"\nAccess by going to http://localhost:" + port + "/")
 	http.HandleFunc("GET /data/", handler)
 	http.HandleFunc("GET /schedule/", ScheduleHandler)
-	http.HandleFunc("GET /dashboard/", DashboardHandler)
+	http.HandleFunc("GET /dashboard/", handlers.DashboardHandler)
 	http.HandleFunc("GET /standings/", handlers.StandingsHandler)
 	http.HandleFunc("GET /constructor-standings/", handlers.ConstructorStandingsHandler)
 	http.ListenAndServe("0.0.0.0:"+port, nil)
