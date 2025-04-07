@@ -42,9 +42,9 @@ type DriverStandingsResponse struct {
 }
 
 type DriverStanding struct {
-	DriverName string
-	Points     string
-	Team       string
+	Name   string
+	Points string
+	Team   string
 }
 
 type ConstructorStandingsResponse struct {

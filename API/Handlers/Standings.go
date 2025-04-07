@@ -44,9 +44,9 @@ func getDriverStandings() *[]byte {
 	for _, data := range leaderboard.MRData.StandingsTable.StandingsLists[0].DriverStandings {
 		simpleLeaderboard = append(simpleLeaderboard,
 			models.DriverStanding{
-				DriverName: fmt.Sprintf("%s %s", data.Driver.GivenName, data.Driver.FamilyName),
-				Points:     data.Points,
-				Team:       data.Constructors[0].Name,
+				Name:   fmt.Sprintf("%s %s", data.Driver.GivenName, data.Driver.FamilyName),
+				Points: data.Points,
+				Team:   data.Constructors[0].Name,
 			})
 	}
 
