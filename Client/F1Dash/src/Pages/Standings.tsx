@@ -1,24 +1,16 @@
 import Navbar from "../Components/Navbar";
 import { useState, useEffect } from "react";
 import "./Standings.css";
-
-interface DriverStandings {
-  DriverName: string;
-  Points: string;
-  Team: string;
-}
-
-interface TeamStandings {
-  Name: string;
-  Points: string;
-  Wins: string;
-}
+import { ToggleSlider } from "react-toggle-slider";
+import { TeamStandings, DriverStandings } from "../Components/Leaderboard";
+import Leaderboard from "../Components/Leaderboard";
 
 function Standings() {
   const [driverLeaderboard, setDriverLeaderboard] = useState<DriverStandings[]>(
     []
   );
   const [teamLeaderboard, setTeamLeaderboard] = useState<TeamStandings[]>([]);
+  const [isDriver, setIsDriver] = useState(false);
 
   useEffect(() => {
     fetch("/api/standings/")
@@ -29,9 +21,7 @@ function Standings() {
       .catch((error) => {
         console.error("Error fetching standings:", error);
       });
-  }, []);
 
-  useEffect(() => {
     fetch("/api/constructor-standings/")
       .then((response) => response.json())
       .then((data: TeamStandings[]) => {
@@ -45,18 +35,22 @@ function Standings() {
   return (
     <>
       <Navbar />
-      <h2> Drivers: </h2>
-      {driverLeaderboard.map((driver: DriverStandings, index: number) => (
-        <p>
-          {index + 1}. {driver.DriverName} {driver.Points}
-        </p>
-      ))}
-      <h2> Teams: </h2>
-      {teamLeaderboard.map((team: TeamStandings, index: number) => (
-        <p>
-          {index + 1} . {team.Name} {team.Points} {team.Wins}
-        </p>
-      ))}
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <span>Driver</span>
+        <ToggleSlider
+          draggable={false}
+          barWidth={60}
+          onToggle={(state) => setIsDriver(state)}
+        />
+        <span>Constructor</span>
+      </div>
+      <>
+        {isDriver ? (
+          <Leaderboard list={teamLeaderboard} />
+        ) : (
+          <Leaderboard list={driverLeaderboard} />
+        )}
+      </>
     </>
   );
 }

@@ -18,39 +18,9 @@ img {
   height: auto;
 }
 
-.topnav {
-  background-color: #000000;
-  overflow : hidden;
-  position: fixed;
-  top: 0;
-  left:0;
-  width: 100%;
-  padding: 0.5rem;
-  align-items: center;
-  border-bottom-color: #27272a;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  row-gap: 1rem;
-  justify-content: space-between;
-  height: 2rem;
-}
-.topnav a {
-  float: left;
-  color: #f7ffff;
-  text-align: center;
-  vertical-align: middle;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1;
-}
-.topnav a:active {
-  transition-duration: 0.25s;
-  transform: scale(0.95);
-}
 body {
   margin: 0;
+  padding-top: 2.5rem;
   /* display: flex; */
   /* place-items: center; */
   min-width: 320px;

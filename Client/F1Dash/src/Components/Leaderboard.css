@@ -1,0 +1,20 @@
+.leaderboardEntry {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    margin-top: 1em;
+    max-width: 400px;
+    max-height: 30px;
+    align-content: center;
+}
+.leaderboardEntry span {
+    margin: 10px;
+}
+
+.leaderboardEntry span:last-child {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

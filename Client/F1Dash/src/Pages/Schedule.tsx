@@ -53,8 +53,8 @@ function Schedule() {
   return (
     <>
       <Navbar />
-      {/* TODO: Make flex template to allow these divs to be in rows of length 2 */}
-        <h1 className="text-3xl" style = {{marginTop : 50}} >Up Next</h1>
+      {/* TODO: on display shrink, make them width of 1*/}
+        <h1 className="text-3xl">Up Next</h1>
         <p className="text-zinc-600 left">All times are local</p>
         <div className = "countdown-container" style = {{maxWidth:'350px'}}>
           <p className="header">Next Session in</p>
