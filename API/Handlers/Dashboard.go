@@ -102,10 +102,10 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		fmt.Println("WebSocket write error:", err)
 		return
 	}
-	c.SetReadLimit(65536)
+	c.SetReadLimit(655360)
 
 	for {
-		mType2, data2, err2 := c.Reader(ctx)
+		_, data2, err2 := c.Reader(ctx)
 		if err2 != nil {
 			fmt.Println("WebSocket read error:", err2)
 			return
@@ -124,7 +124,30 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		if len(dataBytes) == 2 {
 			continue
 		}
-		fmt.Printf("Message type2: %v, Data: %s\n", mType2, string(dataBytes))
+		handleMessages(&dataBytes)
+	}
+}
+
+func handleMessages(message *[]byte) {
+	var messageJson map[string]any
+	err := json.Unmarshal(*message, &messageJson)
+	if err != nil {
+		fmt.Println("error printing message", err)
 	}
 
+	// Bulk Data
+	if data, exists := messageJson["R"]; exists {
+		if jsonData, ok := json.Marshal(data); ok == nil {
+			fmt.Printf("\n\n\nR key is found \n\n\n value is:%s", jsonData)
+		} else {
+			fmt.Println("json error")
+		}
+	}
+
+	// Updates
+	if data, exists := messageJson["M"]; exists {
+		if byteData, ok := data.([]byte); ok && len(byteData) > 0 {
+			fmt.Printf("\n\n\nM key is found \n\n\n value is:%s", data)
+		}
+	}
 }

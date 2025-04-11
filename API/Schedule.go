@@ -92,10 +92,7 @@ func GetRaceWeekends() *string {
 		}
 		prevCountry = country
 	}
-	// Debug //
-	// for i, weekend := range raceWeekends {
-	// 	fmt.Printf("Weekend %d: %+v\n", i, weekend)
-	// }
+
 	var ret, _ = json.Marshal(raceWeekends)
 	result := string(ret)
 	return &result
