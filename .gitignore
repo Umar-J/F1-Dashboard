@@ -1,2 +1,3 @@
 ﻿*.code-workspace
 node_modules
+.vscode
