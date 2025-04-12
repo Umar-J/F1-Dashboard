@@ -145,9 +145,11 @@ func handleMessages(message *[]byte) {
 	}
 
 	// Updates
-	if data, exists := messageJson["M"]; exists {
-		if byteData, ok := data.([]byte); ok && len(byteData) > 0 {
-			fmt.Printf("\n\n\nM key is found \n\n\n value is:%s", data)
+	if data, exists := messageJson["M"]; exists && len(data.([]any)) > 0 {
+		if jsonData, ok := json.Marshal(data); ok == nil {
+			fmt.Printf("\n\n%s", jsonData)
 		}
+	} else {
+		fmt.Printf("M is empty")
 	}
 }
