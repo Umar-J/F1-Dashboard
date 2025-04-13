@@ -44,6 +44,17 @@ const SIGNALR_SUBSCRIBE = `{
 }`
 
 func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
+	connectGetData(writer, request)
+}
+
+func connectGetData(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "text/event-stream")
+	writer.Header().Set("Cache-Control", "no-cache")
+	writer.Header().Set("Connection", "keep-alive")
+
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
+	writer.(http.Flusher).Flush()
+
 	fmt.Println("Accessed dashboard")
 	encodedConnData := url.QueryEscape("[{\"name\": \"Streaming\"}]")
 
@@ -103,7 +114,9 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	c.SetReadLimit(655360)
+	rc := http.NewResponseController(writer)
 
+outerLoop:
 	for {
 		_, data2, err2 := c.Reader(ctx)
 		if err2 != nil {
@@ -124,12 +137,45 @@ func DashboardHandler(writer http.ResponseWriter, request *http.Request) {
 		if len(dataBytes) == 2 {
 			continue
 		}
-		handleMessages(&dataBytes)
+
+		var messageJson map[string]any
+
+		err = json.Unmarshal(dataBytes, &messageJson)
+		if err != nil {
+			fmt.Println("error printing message", err)
+		}
+
+		// Bulk Data
+		if data, exists := messageJson["R"]; exists {
+			if jsonData, ok := json.Marshal(data); ok == nil {
+				fmt.Printf("\n\n\nR key is found \n\n\n value is:%s", jsonData)
+				fmt.Fprintf(writer, "event: new\ndata:%s\n\n", jsonData)
+				rc.Flush()
+			} else {
+				fmt.Println("json error")
+			}
+		}
+
+		// Updates
+		if data, exists := messageJson["M"]; exists && len(data.([]any)) > 0 {
+			if jsonData, ok := json.Marshal(data); ok == nil {
+				fmt.Printf("\n\n%s", jsonData)
+				fmt.Fprintf(writer, "event: update\ndata:%s\n\n", jsonData)
+				rc.Flush()
+			}
+		}
+		select {
+		case <-request.Context().Done():
+			break outerLoop
+		default:
+		}
 	}
 }
 
-func handleMessages(message *[]byte) {
+func handleMessages(message *[]byte) *[]byte {
 	var messageJson map[string]any
+	var jsonData []byte
+
 	err := json.Unmarshal(*message, &messageJson)
 	if err != nil {
 		fmt.Println("error printing message", err)
@@ -149,7 +195,6 @@ func handleMessages(message *[]byte) {
 		if jsonData, ok := json.Marshal(data); ok == nil {
 			fmt.Printf("\n\n%s", jsonData)
 		}
-	} else {
-		fmt.Printf("M is empty")
 	}
+	return &jsonData
 }

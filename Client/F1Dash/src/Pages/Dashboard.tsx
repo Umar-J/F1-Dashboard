@@ -1,5 +1,5 @@
 import Navbar from "../Components/Navbar";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface Weather_Info {
   track_temperature: Float32Array;
@@ -8,14 +8,25 @@ export interface Weather_Info {
   rainfall: Int8Array;
   wind_speed: Int8Array;
   wind_direction: Int8Array;
-} 
+}
 
 function Dashboard() {
   const [data, setData] = useState<Weather_Info | null>(null);
 
   useEffect(() => {
-    const eventSource = new EventSource('/api/dashboard');
-    eventSource.addEventListener('weather', (event) => {
+    const eventSource = new EventSource("/api/dashboard/");
+    eventSource.addEventListener("new", (event) => {
+      console.log(event.data);
+      try {
+        const parsedData: Weather_Info = JSON.parse(event.data);
+        setData(parsedData);
+      } catch (error) {
+        console.error("Failed to parse JSON:", error);
+      }
+    });
+
+    eventSource.addEventListener("update", (event) => {
+      console.log(event.data);
       try {
         const parsedData: Weather_Info = JSON.parse(event.data);
         setData(parsedData);
@@ -39,7 +50,7 @@ function Dashboard() {
     <>
       <Navbar />
       <h1>Dashboard</h1>
-      <div style={{display:"flex", gap:"2rem"}}>
+      <div style={{ display: "flex", gap: "2rem" }}>
         {/* use handdrawn template */}
         {data ? (
           <>
