@@ -1,8 +1,8 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"sort"
 	"strings"
@@ -12,7 +12,7 @@ import (
 )
 
 func ScheduleHandler(writer http.ResponseWriter, request *http.Request) {
-	fmt.Println("Accessed Schedule")
+	log.Println("Accessed Schedule")
 	writer.Write([]byte(*GetRaceWeekends()))
 }
 
@@ -35,7 +35,7 @@ func GetRaceWeekends() *string {
 
 	res, err := http.Get(calUrl)
 	if err != nil {
-		fmt.Println("Error getting Calendar")
+		log.Println("Error getting Calendar")
 	}
 
 	defer res.Body.Close()
@@ -43,7 +43,7 @@ func GetRaceWeekends() *string {
 	cal, err := ics.ParseCalendar(res.Body)
 
 	if err != nil {
-		fmt.Println("Error Parsing Calendar")
+		log.Println("Error Parsing Calendar")
 	}
 
 	allEvents := cal.Events()
@@ -67,12 +67,12 @@ func GetRaceWeekends() *string {
 		}
 		startTime, err := event.GetStartAt()
 		if err != nil {
-			fmt.Println("Error getting start time:", err)
+			log.Println("Error getting start time:", err)
 			continue
 		}
 		endTime, err := event.GetEndAt()
 		if err != nil {
-			fmt.Println("Error getting endtime")
+			log.Println("Error getting endtime")
 			continue
 		}
 		event := Scheduled_Event{parsedSummary[len(parsedSummary)-1], startTime, endTime, startTime.Weekday()}
