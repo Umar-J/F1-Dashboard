@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	models "github.com/umar-j/f1dash/api/Models"
+	models "github.com/umar-j/f1dash/api/models"
 )
 
 func StandingsHandler(writer http.ResponseWriter, request *http.Request) {
