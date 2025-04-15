@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	models "github.com/umar-j/f1dash/api/Models"
@@ -37,7 +38,7 @@ func getDriverStandings() *[]byte {
 
 	err = json.Unmarshal(body, &leaderboard)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	simpleLeaderboard := make([]models.DriverStanding, 0, 20)
 
@@ -52,7 +53,7 @@ func getDriverStandings() *[]byte {
 
 	jsonData, err := json.Marshal(simpleLeaderboard)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	return &jsonData

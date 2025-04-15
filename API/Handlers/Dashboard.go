@@ -116,6 +116,7 @@ func establishF1SignalRSession(writer http.ResponseWriter, request *http.Request
 	startMessageQueue(c, ctx, writer)
 }
 
+// Reads messages recieved on websocket, writes response to client using SSE
 func startMessageQueue(c *websocket.Conn, ctx context.Context, writer http.ResponseWriter) {
 	rc := http.NewResponseController(writer)
 	c.SetReadLimit(655360)
