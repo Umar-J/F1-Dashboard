@@ -1,9 +1,3 @@
-#root {
-  max-width: 1280px;
-  /* margin: 0 auto; */
-  /* text-align: center; */
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -24,24 +18,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-  display: flex;
-  gap: 1rem;
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

@@ -35,22 +35,24 @@ function Standings() {
   return (
     <>
       <Navbar />
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <span>Driver</span>
-        <ToggleSlider
-          draggable={false}
-          barWidth={60}
-          onToggle={(state) => setIsDriver(state)}
-        />
-        <span>Constructor</span>
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex  items-center gap-3 mt-6">
+          <span>Driver</span>
+          <ToggleSlider
+            draggable={false}
+            barWidth={60}
+            onToggle={(state) => setIsDriver(state)}
+          />
+          <span>Constructor</span>
+        </div>
+        <>
+          {isDriver ? (
+            <Leaderboard list={teamLeaderboard} />
+          ) : (
+            <Leaderboard list={driverLeaderboard} />
+          )}
+        </>
       </div>
-      <>
-        {isDriver ? (
-          <Leaderboard list={teamLeaderboard} />
-        ) : (
-          <Leaderboard list={driverLeaderboard} />
-        )}
-      </>
     </>
   );
 }

@@ -1,15 +1,7 @@
 import Navbar from "../Components/Navbar";
 import DashboardHeader from "../Components/DashboardBanner";
+import { Weather_Info } from "../Components/DashboardBanner";
 import { useState, useEffect } from "react";
-
-export interface Weather_Info {
-  track_temperature: Float32Array;
-  air_temperature: Float32Array;
-  humidity: Float32Array;
-  rainfall: Int8Array;
-  wind_speed: Int8Array;
-  wind_direction: Int8Array;
-}
 
 function Dashboard() {
   const [data, setData] = useState<Weather_Info | null>(null);
