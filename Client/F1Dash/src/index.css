@@ -1,3 +1,7 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,16 +17,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-img {
-  margin-top: 7rem;
-  height: auto;
-}
-
 body {
   margin: 0;
-  padding-top: 2.5rem;
-  /* display: flex; */
-  /* place-items: center; */
+  padding-top: 2rem;
   min-width: 320px;
   min-height: 100vh;
 }

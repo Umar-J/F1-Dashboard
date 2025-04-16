@@ -20,16 +20,16 @@ export interface TeamStandings extends Standings {
 
 function Leaderboard({ list }: { list: Standings[] }) {
   return (
-    <>
+    <div className="flex flex-col">
       {list.map((driver: Standings, index: number) => (
-        <div className="leaderboardEntry">
-          <span key={index}>
-            {index + 1} {driver.Name}
+        <div key={index} className="leaderboardEntry">
+          <span className="">
+            {index + 1}. {driver.Name}
           </span>
-          <span className="last-child">{driver.Points} pts</span>
+          <span className="">{driver.Points} pts</span>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 
