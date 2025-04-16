@@ -23,7 +23,7 @@ function Leaderboard({ list }: { list: Standings[] }) {
     <>
       {list.map((driver: Standings, index: number) => (
         <div className="leaderboardEntry">
-          <span key={index}>
+          <span key={index + 1}>
             {index + 1} {driver.Name}
           </span>
           <span className="last-child">{driver.Points} pts</span>

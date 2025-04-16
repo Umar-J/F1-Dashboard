@@ -1,84 +1,104 @@
-import Navbar from "../Components/Navbar"
-import {useState, useEffect} from 'react'
-import './Schedule.css'
+import Navbar from "../Components/Navbar";
+import { useState, useEffect } from "react";
+import "./Schedule.css";
 
 export interface Race_Weekend {
   Country: string;
-  Events:  Event[];
+  Events: Event[];
   IsOver: boolean;
 }
 
 export interface Event {
-  Name:  string;
+  Name: string;
   Start: Date;
-  End:   Date;
+  End: Date;
 }
 
 function Schedule() {
   const [raceWeekends, setRaceWeekends] = useState<Race_Weekend[]>([]);
 
   const [nextRaceTime, setNextRaceTime] = useState<Date>(new Date(0));
-  const [nextRaceTimeRemaining, setNextRaceTimeRemaining] = useState<Date>(new Date(0));
-  
+  const [nextRaceTimeRemaining, setNextRaceTimeRemaining] = useState<Date>(
+    new Date(0)
+  );
+
   const [nextSessionTime, setNextSessionTime] = useState<Date>(new Date(0));
-  const [nextSessionTimeRemaining, setNextSessionTimeRemaining] = useState<Date>(new Date(0));  
+  const [nextSessionTimeRemaining, setNextSessionTimeRemaining] =
+    useState<Date>(new Date(0));
 
   useEffect(() => {
-     fetch('/api/schedule/')
-        .then((response) => response.json())
-        .then((data: Race_Weekend[]) => {
-          // TODO: Parse the date objects
-           setRaceWeekends(data);
-        })
-        .catch((err) => {
-           console.log(err.message);
-        });
+    fetch("/api/schedule/")
+      .then((response) => response.json())
+      .then((data: Race_Weekend[]) => {
+        // TODO: Parse the date objects
+        setRaceWeekends(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
 
-  useEffect (() => {
-    setNextRaceTime(new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => event.Name.match("Race"))?.Start || 0));
+  useEffect(() => {
+    setNextRaceTime(
+      new Date(
+        raceWeekends
+          .find((weekend) => weekend.IsOver === false)
+          ?.Events.find((event) => event.Name.match("Race"))?.Start || 0
+      )
+    );
     setNextRaceTimeRemaining(new Date(nextRaceTime.getTime() - Date.now()));
-    setNextSessionTime(new Date(raceWeekends.find(weekend => weekend.IsOver === false)?.Events.find(event => new Date(event.Start).getTime() > Date.now())?.Start || 0));
-    setNextSessionTimeRemaining(new Date(nextSessionTime.getTime() - Date.now()));
-  }, [raceWeekends])
+    setNextSessionTime(
+      new Date(
+        raceWeekends
+          .find((weekend) => weekend.IsOver === false)
+          ?.Events.find((event) => new Date(event.Start).getTime() > Date.now())
+          ?.Start || 0
+      )
+    );
+    setNextSessionTimeRemaining(
+      new Date(nextSessionTime.getTime() - Date.now())
+    );
+  }, [raceWeekends]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setNextRaceTimeRemaining(new Date(nextRaceTime.getTime() - Date.now()));
-      setNextSessionTimeRemaining(new Date(nextSessionTime.getTime() - Date.now()));
+      setNextSessionTimeRemaining(
+        new Date(nextSessionTime.getTime() - Date.now())
+      );
     }, 1000);
     return () => clearInterval(interval);
   }, [nextRaceTimeRemaining, nextSessionTimeRemaining]);
-  
+
   return (
     <>
       <Navbar />
       {/* TODO: on display shrink, make them width of 1*/}
-        <h1 className="text-3xl">Up Next</h1>
-        <p className="text-zinc-600 left">All times are local</p>
-        <div className = "countdown-container" style = {{maxWidth:'350px'}}>
-          <p className="header">Next Session in</p>
-          <p className="days">{nextSessionTimeRemaining.getUTCDate() - 1}</p>
-          <p className="hours">{nextSessionTimeRemaining.getUTCHours()}</p>
-          <p className="minutes">{nextSessionTimeRemaining.getUTCMinutes()}</p>
-          <p className="seconds">{nextSessionTimeRemaining.getUTCSeconds()}</p>
-          <p className="ldays">Days</p>
-          <p className="lhours">Hours</p>
-          <p className="lminutes">Minutes</p>
-          <p className="lseconds">Seconds</p>
-        </div>
+      <h1 className="text-3xl">Up Next</h1>
+      <p className="text-zinc-600 left">All times are local</p>
+      <div className="countdown-container">
+        <p className="header">Next Session in</p>
+        <p className="days">{nextSessionTimeRemaining.getUTCDate() - 1}</p>
+        <p className="hours">{nextSessionTimeRemaining.getUTCHours()}</p>
+        <p className="minutes">{nextSessionTimeRemaining.getUTCMinutes()}</p>
+        <p className="seconds">{nextSessionTimeRemaining.getUTCSeconds()}</p>
+        <p className="ldays">Days</p>
+        <p className="lhours">Hours</p>
+        <p className="lminutes">Minutes</p>
+        <p className="lseconds">Seconds</p>
+      </div>
 
-        <div className = "countdown-container" style = {{maxWidth:'350px'}}>
-          <p className="header">Next race in</p>
-          <p className="days">{nextRaceTimeRemaining.getUTCDate() - 1}</p>
-          <p className="hours">{nextRaceTimeRemaining.getUTCHours()}</p>
-          <p className="minutes">{nextRaceTimeRemaining.getUTCMinutes()}</p>
-          <p className="seconds">{nextRaceTimeRemaining.getUTCSeconds()}</p>
-          <p className="ldays">Days</p>
-          <p className="lhours">Hours</p>
-          <p className="lminutes">Minutes</p>
-          <p className="lseconds">Seconds</p>
-        </div>
+      <div className="countdown-container">
+        <p className="header">Next race in</p>
+        <p className="days">{nextRaceTimeRemaining.getUTCDate() - 1}</p>
+        <p className="hours">{nextRaceTimeRemaining.getUTCHours()}</p>
+        <p className="minutes">{nextRaceTimeRemaining.getUTCMinutes()}</p>
+        <p className="seconds">{nextRaceTimeRemaining.getUTCSeconds()}</p>
+        <p className="ldays">Days</p>
+        <p className="lhours">Hours</p>
+        <p className="lminutes">Minutes</p>
+        <p className="lseconds">Seconds</p>
+      </div>
       <div className="twoWide-container">
         {raceWeekends.length === 0 ? (
           <p>Loading...</p>
@@ -128,4 +148,4 @@ function Schedule() {
   );
 }
 
-export default Schedule
+export default Schedule;

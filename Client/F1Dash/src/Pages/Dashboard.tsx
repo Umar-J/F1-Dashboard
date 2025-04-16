@@ -1,4 +1,5 @@
 import Navbar from "../Components/Navbar";
+import DashboardHeader from "../Components/DashboardBanner";
 import { useState, useEffect } from "react";
 
 export interface Weather_Info {
@@ -49,17 +50,11 @@ function Dashboard() {
   return (
     <>
       <Navbar />
-      <h1>Dashboard</h1>
       <div style={{ display: "flex", gap: "2rem" }}>
         {/* use handdrawn template */}
         {data ? (
           <>
-            <div>Air Temp: {data.air_temperature}</div>
-            <div>Track Temp: {data.track_temperature}</div>
-            <div>Humidity: {data.humidity}</div>
-            <div>Rain: {data.rainfall ? "True" : "False"}</div>
-            <div>Wind: {data.wind_speed}</div>
-            <div>wind_direction: {data.wind_direction}</div>
+            <DashboardHeader data={data} />
           </>
         ) : (
           <div>Loading...</div>

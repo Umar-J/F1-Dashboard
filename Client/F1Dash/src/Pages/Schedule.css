@@ -114,6 +114,7 @@
 }
 
 .countdown-container {
+    max-width: 350px;
     display: grid;
     grid-template-areas: 
         "top top top top"
