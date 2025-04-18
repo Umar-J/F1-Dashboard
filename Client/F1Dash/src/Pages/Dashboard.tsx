@@ -24,7 +24,8 @@ function Dashboard() {
     });
 
     eventSource.addEventListener("update", (event) => {
-      console.log(event.data);
+      const jsonData = JSON.parse(event.data);
+      console.log(jsonData);
     });
 
     eventSource.onerror = (err) => {
@@ -43,7 +44,7 @@ function Dashboard() {
       <Navbar />
       <div style={{ display: "flex", gap: "2rem" }}>
         {/* use handdrawn template */}
-        {weatherData && clockData && sessionInfo && lapCount && trackStatus ? (
+        {weatherData && clockData && sessionInfo && trackStatus ? (
           <DashboardHeader
             data={weatherData}
             clock={clockData}
@@ -52,7 +53,7 @@ function Dashboard() {
             trackStatus={trackStatus}
           />
         ) : (
-          <div>Loading...</div>
+          <div className="my-15">Loading...</div>
         )}
       </div>
     </>
