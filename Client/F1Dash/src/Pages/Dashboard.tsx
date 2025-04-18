@@ -1,31 +1,30 @@
 import Navbar from "../Components/Navbar";
 import DashboardHeader from "../Components/DashboardBanner";
-import { Weather_Info } from "../Components/DashboardBanner";
+import { Root } from "../types/ApiTypes";
 import { useState, useEffect } from "react";
 
 function Dashboard() {
-  const [data, setData] = useState<Weather_Info | null>(null);
+  const [weatherData, setWeatherData] = useState<Root["WeatherData"] | null>();
+  const [clockData, setClockData] = useState<
+    Root["ExtrapolatedClock"] | null
+  >();
+  const [sessionInfo, setSessionInfo] = useState<Root["SessionInfo"] | null>();
+  const [lapCount, setLapCount] = useState<Root["LapCount"] | null>();
+  const [trackStatus, setTrackStatus] = useState<Root["TrackStatus"] | null>();
 
   useEffect(() => {
     const eventSource = new EventSource("/api/dashboard/");
     eventSource.addEventListener("new", (event) => {
-      console.log(event.data);
-      try {
-        const parsedData: Weather_Info = JSON.parse(event.data);
-        setData(parsedData);
-      } catch (error) {
-        console.error("Failed to parse JSON:", error);
-      }
+      const jsonData: Root = JSON.parse(event.data);
+      setWeatherData(jsonData.WeatherData);
+      setClockData(jsonData.ExtrapolatedClock);
+      setSessionInfo(jsonData.SessionInfo);
+      setLapCount(jsonData.LapCount);
+      setTrackStatus(jsonData.TrackStatus);
     });
 
     eventSource.addEventListener("update", (event) => {
       console.log(event.data);
-      try {
-        const parsedData: Weather_Info = JSON.parse(event.data);
-        setData(parsedData);
-      } catch (error) {
-        console.error("Failed to parse JSON:", error);
-      }
     });
 
     eventSource.onerror = (err) => {
@@ -44,10 +43,14 @@ function Dashboard() {
       <Navbar />
       <div style={{ display: "flex", gap: "2rem" }}>
         {/* use handdrawn template */}
-        {data ? (
-          <>
-            <DashboardHeader data={data} />
-          </>
+        {weatherData && clockData && sessionInfo && lapCount && trackStatus ? (
+          <DashboardHeader
+            data={weatherData}
+            clock={clockData}
+            sessionInfo={sessionInfo}
+            lapCount={lapCount}
+            trackStatus={trackStatus}
+          />
         ) : (
           <div>Loading...</div>
         )}
