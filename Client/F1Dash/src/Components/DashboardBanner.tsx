@@ -51,7 +51,7 @@ function DashboardHeader({
         <h3
           className={
             getTrackStatusColor(trackStatus.Status) +
-            " text-2xl font-bold leading-none mb-0 my-0 px-2 py-1 rounded-lg"
+            " flex h-8 items-center truncate rounded-md px-2"
           }
         >
           {getTrackStatusText(trackStatus.Status)}
@@ -64,10 +64,12 @@ function DashboardHeader({
 function getTrackStatusColor(status: string): string {
   switch (status) {
     case "1":
-      return "bg-green-400";
+      return "bg-emerald-500";
     case "2":
       return "bg-yellow-500";
     case "3":
+      return " bg-gray-500";
+    case "5":
       return "bg-red-500";
     default:
       return "bg-gray-500";
@@ -81,7 +83,9 @@ function getTrackStatusText(status: string): string {
     case "2":
       return "Yellow";
     case "3":
-      return "Red";
+      return "gray";
+    case "5":
+      return "Red Flag";
     default:
       return "Unknown";
   }
