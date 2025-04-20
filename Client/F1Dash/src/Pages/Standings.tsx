@@ -4,13 +4,14 @@ import "./Standings.css";
 import { ToggleSlider } from "react-toggle-slider";
 import { TeamStandings, DriverStandings } from "../Components/Leaderboard";
 import Leaderboard from "../Components/Leaderboard";
+import Switcher11 from "../Components/Switchter";
 
 function Standings() {
   const [driverLeaderboard, setDriverLeaderboard] = useState<DriverStandings[]>(
     []
   );
   const [teamLeaderboard, setTeamLeaderboard] = useState<TeamStandings[]>([]);
-  const [isDriver, setIsDriver] = useState(false);
+  const [isDriver, setIsDriver] = useState(true);
 
   useEffect(() => {
     fetch("/api/standings/")
@@ -36,20 +37,15 @@ function Standings() {
     <>
       <Navbar />
       <div className="flex flex-col items-center justify-center">
-        <div className="flex  items-center gap-3 mt-6">
-          <span>Driver</span>
-          <ToggleSlider
-            draggable={false}
-            barWidth={60}
-            onToggle={(state) => setIsDriver(state)}
-          />
-          <span>Constructor</span>
-        </div>
         <>
+          <div className="mt-4">
+            <Switcher11 onToggle={(state) => setIsDriver(state)} />
+          </div>
+
           {isDriver ? (
-            <Leaderboard list={teamLeaderboard} />
-          ) : (
             <Leaderboard list={driverLeaderboard} />
+          ) : (
+            <Leaderboard list={teamLeaderboard} />
           )}
         </>
       </div>

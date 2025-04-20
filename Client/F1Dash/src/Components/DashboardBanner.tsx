@@ -15,7 +15,7 @@ function DashboardHeader({
   trackStatus: ApiTypes.TrackStatus;
 }) {
   return (
-    <div className="hidden w-full flex-wrap items-center justify-between gap-2 overflow-hidden border-b border-zinc-800 p-2 px-4 md:flex my-5">
+    <div className="hidden w-full flex-wrap items-center justify-between gap-2 overflow-hidden border-b border-zinc-800 px-4 md:flex">
       <div className="flex flex-wrap items-center gap-2 justify-between">
         <div className="flex items-center gap-2">
           <div className="h-12 w-16">
