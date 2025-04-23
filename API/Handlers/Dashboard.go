@@ -147,22 +147,56 @@ outerLoop:
 
 		err = json.Unmarshal(dataBytes, &messageJson)
 		if err != nil {
-			log.Println("error printing message", err)
+			log.Println("JSON unmarshal error:", err)
 		}
 
-		// Bulk Data
+		// Handle Initial data (R key)
 		if data, exists := messageJson["R"]; exists {
 			if jsonData, ok := json.Marshal(data); ok == nil {
 				fmt.Fprintf(writer, "event: new\ndata:%s\n\n", jsonData)
 				rc.Flush()
 			} else {
-				log.Println("new data json error")
+				log.Println("Error marshaling R data:", err)
 			}
 		}
 
-		// Updates
-		if data, exists := messageJson["M"]; exists && len(data.([]any)) > 0 {
-			if jsonData, ok := json.Marshal(data); ok == nil {
+		// Handle Updates (M key)
+		if data, exists := messageJson["M"]; exists {
+			mSlice, ok := data.([]any)
+			if !ok || len(mSlice) == 0 {
+				continue
+			}
+
+			valid := true
+			updates := make([]map[string]any, 0, len(mSlice))
+
+			for _, elem := range mSlice {
+				elemMap, ok := elem.(map[string]any)
+				if !ok {
+					valid = false
+					break
+				}
+
+				aVal, exists := elemMap["A"]
+				if !exists {
+					valid = false
+					break
+				}
+				aSlice, ok := aVal.([]any)
+				if !ok || len(aSlice) < 2 {
+					valid = false
+					break
+				}
+				category, ok := aSlice[0].(string)
+				if !ok {
+					valid = false
+					break
+				}
+				dataPart := aSlice[1]
+				updates = append(updates, map[string]any{category: dataPart})
+			}
+
+			if jsonData, ok := json.Marshal(data); ok == nil && valid && len(updates) > 0 {
 				fmt.Fprintf(writer, "event: update\ndata:%s\n\n", jsonData)
 				rc.Flush()
 			} else {
