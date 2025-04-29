@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	handlers "github.com/umar-j/f1dash/api/handlers"
+	handlers "github.com/umar-j/f1dash/api/Handlers"
 )
 
 func main() {
