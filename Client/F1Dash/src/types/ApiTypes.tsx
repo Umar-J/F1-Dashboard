@@ -69,7 +69,13 @@ export interface LapCount {
 }
 
 export interface TrackStatus {
-    Message: string
-    Status: string
-    _kf: boolean
-  }
+  Message: string;
+  Status: string;
+  _kf: boolean;
+}
+
+export interface UpdateData {
+  A: [string, any, string]; // [Title, Data, Timestamp]
+  H: string;
+  M: string;
+}

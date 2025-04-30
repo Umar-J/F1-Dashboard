@@ -1,6 +1,6 @@
 import Navbar from "../Components/Navbar";
 import DashboardHeader from "../Components/DashboardBanner";
-import { Root } from "../types/ApiTypes";
+import { Root, UpdateData } from "../types/ApiTypes";
 import { useState, useEffect } from "react";
 
 function Dashboard() {
@@ -24,8 +24,60 @@ function Dashboard() {
     });
 
     eventSource.addEventListener("update", (event) => {
-      const jsonData = JSON.parse(event.data);
-      console.log(jsonData);
+      console.log(event.data);
+      const jsonData: UpdateData[] = JSON.parse(event.data);
+      // console.log("update", event.data);
+
+      jsonData.forEach((item) => {
+        const title: string = item.A[0];
+        const data = item.A[1]; // Could be object or string
+        const timestamp = item.A[2]; // ISO timestamp (if needed)
+        console.log(title, data, timestamp);
+
+        // if (typeof data !== "object" || data === null) {
+        //   // console.log("Skipping non-object data for:", title);
+        //   return;
+        // }
+        // switch (title) {
+        //   case "WeatherData":
+        //     setWeatherData((prev) => ({
+        //       ...prev,
+        //       ...(data as Root["WeatherData"]),
+        //     }));
+        //     console.log("weather Set", data);
+        //     break;
+        //   case "ExtrapolatedClock":
+        //     setClockData((prev) => ({
+        //       ...prev,
+        //       ...(data as Root["ExtrapolatedClock"]),
+        //     }));
+        //     console.log("clock Set", data);
+        //     break;
+        //   case "SessionInfo":
+        //     setSessionInfo((prev) => ({
+        //       ...prev,
+        //       ...(data as Root["SessionInfo"]),
+        //     }));
+        //     console.log("session Set", data);
+        //     break;
+        //   case "LapCount":
+        //     setLapCount((prev) => ({ ...prev, ...(data as Root["LapCount"]) }));
+        //     console.log("lap Set", data);
+        //     break;
+        //   case "TrackStatus":
+        //     setTrackStatus((prev) => ({
+        //       ...prev,
+        //       ...(data as Root["TrackStatus"]),
+        //     }));
+        //     console.log("track Set", data);
+        //     break;
+        //   case "TimingData":
+        //     // Handle TimingData updates if needed
+        //     break;
+        //   default:
+        //     console.log("Unhandled update type:", title);
+        // }
+      });
     });
 
     eventSource.onerror = (err) => {
