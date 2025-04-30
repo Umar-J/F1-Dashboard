@@ -4,7 +4,7 @@ import "./Standings.css";
 import { ToggleSlider } from "react-toggle-slider";
 import { TeamStandings, DriverStandings } from "../Components/Leaderboard";
 import Leaderboard from "../Components/Leaderboard";
-import Switcher11 from "../Components/Switchter";
+import DriverConstructorSwitcher from "../Components/Switcher";
 
 function Standings() {
   const [driverLeaderboard, setDriverLeaderboard] = useState<DriverStandings[]>(
@@ -39,7 +39,9 @@ function Standings() {
       <div className="flex flex-col items-center justify-center">
         <>
           <div className="mt-4">
-            <Switcher11 onToggle={(state) => setIsDriver(state)} />
+            <DriverConstructorSwitcher
+              onToggle={(state) => setIsDriver(state)}
+            />
           </div>
 
           {isDriver ? (
