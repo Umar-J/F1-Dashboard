@@ -29,8 +29,8 @@ type Scheduled_Event struct {
 	Date  time.Weekday
 }
 
+// GetRaceWeekends returns a string containing the race weekends in date-sorted order
 func GetRaceWeekends() *string {
-	// ret: race weekends in date-sorted order
 	calUrl := "https://ics.ecal.com/ecal-sub/6738026ac199e20008e3938c/Formula%201.ics"
 
 	res, err := http.Get(calUrl)
@@ -78,12 +78,15 @@ func GetRaceWeekends() *string {
 		event := Scheduled_Event{parsedSummary[len(parsedSummary)-1], startTime, endTime, startTime.Weekday()}
 		if country == prevCountry {
 			if len(raceWeekends) == 0 {
+				// Initialize new race weekend
 				raceWeekends = append(raceWeekends, *new(Race_Weekend))
 				raceWeekends[0].Events = append(raceWeekends[0].Events, event)
 				raceWeekends[0].Country = country
 			}
+			// Add event to current race weekend
 			raceWeekends[len(raceWeekends)-1].Events = append(raceWeekends[len(raceWeekends)-1].Events, event)
 		} else {
+			// New Race Weekend
 			raceWeekends[len(raceWeekends)-1].IsOver = raceWeekends[len(raceWeekends)-1].Events[len(raceWeekends[len(raceWeekends)-1].Events)-1].End.Before(time.Now())
 			newWeekend := new(Race_Weekend)
 			newWeekend.Country = country

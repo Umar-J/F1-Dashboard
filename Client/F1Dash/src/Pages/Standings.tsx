@@ -1,14 +1,13 @@
 import Navbar from "../Components/Navbar";
 import { useState, useEffect } from "react";
 import "./Standings.css";
-import { ToggleSlider } from "react-toggle-slider";
 import { TeamStandings, DriverStandings } from "../Components/Leaderboard";
 import Leaderboard from "../Components/Leaderboard";
 import DriverConstructorSwitcher from "../Components/Switcher";
 
 function Standings() {
   const [driverLeaderboard, setDriverLeaderboard] = useState<DriverStandings[]>(
-    []
+    [],
   );
   const [teamLeaderboard, setTeamLeaderboard] = useState<TeamStandings[]>([]);
   const [isDriver, setIsDriver] = useState(true);
