@@ -1,6 +1,6 @@
 import Navbar from "../Components/Navbar";
 import DashboardHeader from "../Components/DashboardBanner";
-import { Root } from "../types/ApiTypes";
+import { Root } from "../types/DashboardTypes";
 import { useState, useEffect } from "react";
 
 function Dashboard() {
@@ -11,21 +11,29 @@ function Dashboard() {
   const [sessionInfo, setSessionInfo] = useState<Root["SessionInfo"] | null>();
   const [lapCount, setLapCount] = useState<Root["LapCount"] | null>();
   const [trackStatus, setTrackStatus] = useState<Root["TrackStatus"] | null>();
+  const [raceControlMessages, setRaceControlMessages] = useState<
+    Root["RaceControlMessages"] | null
+  >();
 
   useEffect(() => {
     const eventSource = new EventSource("/api/dashboard/");
     eventSource.addEventListener("new", (event) => {
       const jsonData: Root = JSON.parse(event.data);
+      console.log(jsonData);
       setWeatherData(jsonData.WeatherData);
       setClockData(jsonData.ExtrapolatedClock);
       setSessionInfo(jsonData.SessionInfo);
       setLapCount(jsonData.LapCount);
       setTrackStatus(jsonData.TrackStatus);
+      setRaceControlMessages(jsonData.RaceControlMessages);
     });
 
     eventSource.addEventListener("update", (event) => {
       const jsonData = JSON.parse(event.data);
-      console.log(jsonData);
+      jsonData.map((item: any) => {
+        const jsonItem = JSON.stringify(item.A);
+        console.log(jsonItem);
+      });
     });
 
     eventSource.onerror = (err) => {
@@ -55,6 +63,21 @@ function Dashboard() {
         ) : (
           <div className="my-15">Loading...</div>
         )}
+      </div>
+      <div className="h-64 overflow-y-auto border border-gray-300 p-4 rounded-2xl my-2">
+        <div>
+          {raceControlMessages ? (
+            <>
+              {raceControlMessages.Messages.slice()
+                .reverse()
+                .map((message) => (
+                  <p>{message.Message}</p>
+                ))}
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </>
   );

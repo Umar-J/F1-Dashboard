@@ -1,5 +1,5 @@
 import "./Leaderboard.css";
-import * as ApiTypes from "../types/ApiTypes";
+import * as ApiTypes from "../types/DashboardTypes";
 
 function DashboardHeader({
   data,
