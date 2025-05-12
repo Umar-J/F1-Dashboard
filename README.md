@@ -23,6 +23,7 @@ A modern Formula 1 dashboard web application that displays live telemetry, stand
 #### Backend (Go)
 ```
 cd API
+go mod tidy
 go run ./cmd
 ```
 
